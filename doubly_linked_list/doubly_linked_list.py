@@ -2,13 +2,6 @@
 as well as its next node in the List."""
 
 
-class Node:
-    def __init__(self, data):
-        self.item = data
-        self.prev = None
-        self.next = None
-
-
 class ListNode:
     def __init__(self, value, prev=None, next=None):
         self.value = value
