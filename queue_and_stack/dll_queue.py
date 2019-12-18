@@ -170,4 +170,6 @@ class Queue:
             return None
 
     def len(self):
-        return self.size
+        return self.size  # can refactor: return self.storage.length
+
+    # can remove lines 163, 166-167, and 169-170

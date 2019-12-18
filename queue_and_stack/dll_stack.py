@@ -157,18 +157,19 @@ class DoublyLinkedList:
 
 class Stack:
     def __init__(self):
-        self.size = 0
+        self.size = 0  # can remove this because it's built into our storage
         # Why is our DLL a good choice to store our elements?
+        # b/c we're constantly changing one end of the stack
         self.storage = DoublyLinkedList()
 
     def push(self, value):
-        self.size += 1
+        self.size += 1  # can remove this
         return self.storage.add_to_head(value)
 
     def pop(self):
-        if self.storage:
+        if self.storage:  # can remove this and line 171
             self.size -= 1
             return self.storage.remove_from_head()
 
     def len(self):
-        return self.size
+        return self.size  # return self.storage.__len__()
