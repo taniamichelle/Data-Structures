@@ -16,22 +16,21 @@ class BinarySearchTree:
         adds the input value to the binary search tree, adhering to 
         the rules of the ordering of elements in a binary search tree.
         '''
+        if self.value > value:  # if new value is < root's value:
+            if self.left is None:  # if there's no root for left side:
+                # new value becomes the left root
+                self.left = BinarySearchTree(value)
+            else:  # if there is a root for left side:
+                # add new value as child of left root
+                return self.left.insert(value)
 
         if self.value <= value:  # if new value >= root's value:
-            if self.right == None:  # if there's no root for the right side:
+            if self.right is None:  # if there's no root for the right side:
                 # new value becomes the right root
                 self.right = BinarySearchTree(value)
             else:  # if there is a root for the right side:
                 # add new value as a child of right root
                 return self.right.insert(value)  # making recursive insert call
-        else:
-            if self.value > value:  # if new value is < root's value:
-                if self.left == None:  # if there's no root for left side:
-                    # new value becomes the left root
-                    self.left = BinarySearchTree(value)
-                else:  # if there is a root for left side:
-                    # add new value as child of left root
-                    return self.left.insert(value)
 
     # Return True if the tree contains the value
     # False if it does not
@@ -43,19 +42,20 @@ class BinarySearchTree:
         '''
         # search tree for input value
         # return boolean of True or False, depending on result
-        if self.value == target:
+        if target == self.value:
             return True
+        elif target < self.value:  # if target < self.value:
+            if self.left is None:  # if there are no more left branches:
+                return False    # return False
+            else:
+                return self.left.contains(target)  # go left (recursive)
         else:
-            if target < self.value:  # if target < self.value:
-                if self.left == None:  # if there are no more left branches:
-                    return False    # return False
-                elif self.left != None:
-                    return self.left.contains(target)  # go left (recursive)
-            elif target > self.value:  # if target > self.value:
-                if self.right == None:
-                    return False
-                elif self.right != None:
-                    return self.right.contains(target)  # go right (recursive)
+            # if target > self.value:  # if target > self.value:
+            if self.right is None:
+                return False
+            else:
+                # if self.right is not None:
+                return self.right.contains(target)  # go right (recursive)
 
     # Return the maximum value found in the tree
     def get_max(self):
@@ -65,22 +65,20 @@ class BinarySearchTree:
         # look at values in branch right of root
         # if node has no right branch and is at rightmost branch, it's the max value
         # return value
-        if self.right != None:
+        if self.right is not None:
             return self.right.get_max()  # call get_max() recursively
         else:
             return self.value
 
     # Call the function `cb` on the value of each node
     # You may use a recursive or iterative approach
-
     def for_each(self, cb):
         '''
         performs a traversal of _every_ node in the tree, executing the 
         passed-in callback function on each tree node value. There is a myriad 
         of ways to perform tree traversal; in this case any of them should work
         '''
-        # call cb on the value of each node
-        cb(self.value)
+        cb(self.value)  # call cb on the value of each node
         if self.right:
             self.right.for_each(cb)
         if self.left:
