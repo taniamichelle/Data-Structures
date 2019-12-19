@@ -50,11 +50,11 @@ class BinarySearchTree:
             else:
                 return self.left.contains(target)  # go left (recursive)
         else:
-            # if target > self.value:  # if target > self.value:
+            # if target > self.value:  <== don't need this line
             if self.right is None:
                 return False
             else:
-                # if self.right is not None:
+                # if self.right is not None:  <== don't need this line
                 return self.right.contains(target)  # go right (recursive)
 
     # Return the maximum value found in the tree
@@ -65,13 +65,13 @@ class BinarySearchTree:
         # look at values in branch right of root
         # if node has no right branch and is at rightmost branch, it's the max value
         # return value
-        if self.right is not None:
+        if self.right:  # if right exists:
             return self.right.get_max()  # call get_max() recursively
         else:
             return self.value
 
     # Call the function `cb` on the value of each node
-    # You may use a recursive or iterative approach
+    # You may use a recursive or iterative approach.  
     def for_each(self, cb):
         '''
         performs a traversal of _every_ node in the tree, executing the 
@@ -83,6 +83,17 @@ class BinarySearchTree:
             self.right.for_each(cb)
         if self.left:
             self.left.for_each(cb)
+
+        # iterative approach
+        # stack = Stack()
+        # stack.push(self)  # pass in root node
+        # while stack.len() > 0:  # keep running loop while there's something in stack
+        #     current_node = stack.pop()
+        #     if current_node.right:
+        #         stack.push(current_node.right)
+        #     if current_node.left:
+        #         stack.push(current_node.left)
+        #     cb(current_node.value)
 
     # DAY 4 Project -----------------------
 
