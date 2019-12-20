@@ -1,14 +1,14 @@
-# from dll_stack import Stack
-# from dll_queue import Queue
-# import sys
-# sys.path.append('../queue_and_stack')
+from queue_and_stack import Queue
+from queue_and_stack import Stack
+import sys
+sys.path.append('../queue_and_stack')
 
 
 class BinarySearchTree:
     def __init__(self, value):  # we're just using 'value', no key
         self.value = value  # 'key'='value' since only using 'value'
-        self.left = None
-        self.right = None
+        self.left = None  # left pointer
+        self.right = None   # right pointer
 
     # Insert the given value into the tree
     def insert(self, value):
@@ -71,7 +71,7 @@ class BinarySearchTree:
             return self.value
 
     # Call the function `cb` on the value of each node
-    # You may use a recursive or iterative approach.  
+    # You may use a recursive or iterative approach.
     def for_each(self, cb):
         '''
         performs a traversal of _every_ node in the tree, executing the 
@@ -84,8 +84,8 @@ class BinarySearchTree:
         if self.left:
             self.left.for_each(cb)
 
-        # iterative approach
-        # stack = Stack()
+        # -----------------------DEPTH-FIRST ITERATIVE SOLUTION:-----------------------
+        # stack = Stack()  # use stack import from top
         # stack.push(self)  # pass in root node
         # while stack.len() > 0:  # keep running loop while there's something in stack
         #     current_node = stack.pop()
@@ -95,30 +95,53 @@ class BinarySearchTree:
         #         stack.push(current_node.left)
         #     cb(current_node.value)
 
-    # DAY 4 Project -----------------------
+    # ------------------------------ DAY 4 Project -------------------------------
 
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self, node):
-        pass
+        if node == None:  # if node == None:
+            return  # return
+        self.in_order_print(node.left)  # recursive call
+        print(node.value)  # print node's value
+        self.in_order_print(node.right)  # recursive call
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self, node):
-        pass
+        q = Queue()  # Make a queue. references Queue class + gives us access to its methods
+        q.enqueue(node)  # Pushing root into queue
+        while q.len() > 0:  # While queue is not empty
+            # removing old node (root) from queue
+            current_node = q.dequeue()
+            print(current_node.value)  # print value of current node
+            if current_node.left:  # if left exists for our current node. add 'left' to back of q if there are pointers left
+                # adding current node to queue. left continues moving the pointer left
+                q.enqueue(current_node.left)
+            if self.right:  # if right:
+                q.enqueue(current_node.right)  # adding current node to queue
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
-        pass
+        s = Stack()  # Make a stack
+        s.push(node)  # put root in stack
+        while s != 0:  # while stack not empty
+            current_node = s.pop()  # pop root out of stack
+            print(current_node.value)  # print value of current node
+            if current_node.left:  # if there are more left pointers
+                s.push(current_node.left)  # add value of current node to stack
+            if current_node.right:  # if there are more right pointers
+                # add value of current node to stack
+                s.push(current_node.value)
 
     # STRETCH Goals -------------------------
     # Note: Research may be required
 
-    # Print In-order recursive DFT
+    # Print In-order recursive DFT. uncomment 94-97 in test.
     def pre_order_dft(self, node):
         pass
 
-    # Print Post-order recursive DFT
+    # Print Post-order recursive DFT. uncomment 99-102 in test.
     def post_order_dft(self, node):
         pass
